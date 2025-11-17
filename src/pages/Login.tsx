@@ -26,7 +26,7 @@ const Login = () => {
       const success = await login(formData);
       if (success) {
         message.success("Login successful!");
-        navigate("");
+        navigate("/");
       } else {
         message.error("Invalid credentials.");
       }
@@ -169,24 +169,6 @@ const Login = () => {
               </Button>
             </Form.Item>
           </Form>
-
-          {/* Demo credentials */}
-          <div className="mt-8 p-4 bg-gradient-to-r from-gray-700 to-gray-800 rounded-xl border border-gray-600">
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-300 mb-2">
-                Demo Credentials
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-sm">
-                <div className="bg-gray-600 px-3 py-2 rounded-lg border border-gray-500 shadow-sm">
-                  <span className="font-mono text-white">01830143234</span>
-                </div>
-                <div className="text-gray-400 hidden sm:block">/</div>
-                <div className="bg-gray-600 px-3 py-2 rounded-lg border border-gray-500 shadow-sm">
-                  <span className="font-mono text-white">mehediha</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Footer */}
           <div className="mt-6 text-center">
