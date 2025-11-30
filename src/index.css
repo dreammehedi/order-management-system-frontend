@@ -62,3 +62,11 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+.ami .StripeElement {
+  background-color: var(--card);
+  color: #ffffff;
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+}

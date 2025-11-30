@@ -1,131 +1,12 @@
-// import { useAuth } from "@/hooks/useAuth"; // Update import to use Redux hook
-// import { useAppSelector } from "@/services/store";
-
-// import {
-//   BarChartOutlined,
-//   DashboardOutlined,
-//   DollarOutlined,
-//   LogoutOutlined,
-//   MenuFoldOutlined,
-//   MenuUnfoldOutlined,
-//   SettingOutlined,
-//   TeamOutlined,
-//   UserAddOutlined,
-//   UserOutlined,
-// } from "@ant-design/icons";
-// import { Avatar, Button, Dropdown, Layout, Menu } from "antd";
-// import { useState } from "react";
-// import { Outlet, useLocation, useNavigate } from "react-router-dom";
-
-// const { Header, Sider, Content } = Layout;
-
-// const DashboardLayout = () => {
-//   const [collapsed, setCollapsed] = useState(false);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   const { logout } = useAuth(); // Now using Redux-based hook
-//   const { user } = useAppSelector((state) => state.auth); // Get user from Redux store
-
-//   const menuItems = [
-//     {
-//       key: "",
-//       icon: <DashboardOutlined />,
-//       label: "Dashboard",
-//     },
-//     {
-//       key: "/tenants",
-//       icon: <TeamOutlined />,
-//       label: "Schools",
-//     },
-//     {
-//       key: "/add-tenant",
-//       icon: <UserAddOutlined />,
-//       label: "Add School",
-//     },
-//     {
-//       key: "/payments",
-//       icon: <DollarOutlined />,
-//       label: "Payments",
-//     },
-//     {
-//       key: "/commissions",
-//       icon: <BarChartOutlined />,
-//       label: "Commissions",
-//     },
-//     {
-//       key: "/settings",
-//       icon: <SettingOutlined />,
-//       label: "Settings",
-//     },
-//   ];
-
-//   const userMenuItems = [
-//     {
-//       key: "logout",
-//       icon: <LogoutOutlined />,
-//       label: "Logout",
-//       onClick: logout,
-//     },
-//   ];
-
-//   return (
-//     <Layout className="min-h-screen">
-//       <Sider
-//         trigger={null}
-//         collapsible
-//         collapsed={collapsed}
-//         className="bg-sidebar border-r border-sidebar-border"
-//         width={250}
-//       >
-//         <div className="h-16 flex items-center justify-center border-b border-sidebar-border">
-//           <h1 className="text-xl font-bold text-sidebar-foreground">
-//             {collapsed ? "SA" : "Super Admin"}
-//           </h1>
-//         </div>
-//         <Menu
-//           mode="inline"
-//           selectedKeys={[location.pathname]}
-//           items={menuItems}
-//           onClick={({ key }) => navigate(key)}
-//           className="bg-sidebar text-sidebar-foreground border-none"
-//         />
-//       </Sider>
-//       <Layout>
-//         <Header className="bg-card border-b border-border px-6 flex items-center justify-between h-16">
-//           <Button
-//             type="text"
-//             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-//             onClick={() => setCollapsed(!collapsed)}
-//             className="text-foreground hover:bg-secondary"
-//           />
-//           <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-//             <div className="flex items-center gap-3 cursor-pointer hover:bg-secondary px-3 py-2 rounded-lg transition-colors">
-//               <span className="text-foreground">
-//                 {user?.name || user?.email || "Admin"}
-//               </span>
-//               <Avatar icon={<UserOutlined />} className="bg-primary" />
-//             </div>
-//           </Dropdown>
-//         </Header>
-//         <Content className="p-6 bg-background">
-//           <Outlet />
-//         </Content>
-//       </Layout>
-//     </Layout>
-//   );
-// };
-
-// export default DashboardLayout;
 import { useAuth } from "@/hooks/useAuth";
 import { useAppSelector } from "@/services/store";
 import {
   CrownOutlined,
-  DashboardOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  OrderedListOutlined,
   TeamOutlined,
-  UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -173,34 +54,14 @@ const DashboardLayout = () => {
   const menuItems = [
     {
       key: "/",
-      icon: <DashboardOutlined />,
-      label: "Dashboard",
+      icon: <OrderedListOutlined />,
+      label: "Orders",
     },
     {
       key: "/tenants",
       icon: <TeamOutlined />,
       label: "Schools",
     },
-    {
-      key: "/add-tenant",
-      icon: <UserAddOutlined />,
-      label: "Add School",
-    },
-    // {
-    //   key: "/payments",
-    //   icon: <DollarOutlined />,
-    //   label: "Payments",
-    // },
-    // {
-    //   key: "/commissions",
-    //   icon: <BarChartOutlined />,
-    //   label: "Commissions",
-    // },
-    // {
-    //   key: "/settings",
-    //   icon: <SettingOutlined />,
-    //   label: "Settings",
-    // },
   ];
 
   const userMenuItems = [
@@ -219,15 +80,15 @@ const DashboardLayout = () => {
                 strong
                 className="block text-gray-900 dark:text-white text-sm"
               >
-                {user?.name || "Admin User"}
+                {user?.username}
               </Text>
               <Text type="secondary" className="text-xs block">
-                {user?.phone_number || user?.email || "No contact info"}
+                {user?.email || "No contact info"}
               </Text>
               <div className="flex items-center mt-1">
                 <CrownOutlined className="text-yellow-500 text-xs mr-1" />
                 <Text type="secondary" className="text-xs">
-                  {role || "Administrator"}
+                  {role}
                 </Text>
               </div>
             </div>
@@ -296,7 +157,7 @@ const DashboardLayout = () => {
                 <CrownOutlined className="text-white text-sm" />
               </div>
               <h1 className="text-lg font-bold text-sidebar-foreground whitespace-nowrap">
-                Super Admin
+                {role}
               </h1>
             </div>
           )}
@@ -367,10 +228,10 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3 cursor-pointer hover:bg-secondary px-3 py-2 rounded-lg transition-colors">
               <div className="hidden sm:block text-right">
                 <Text strong className="text-foreground text-sm block">
-                  {user?.name || "Admin User"}
+                  {user?.username}
                 </Text>
                 <Text type="secondary" className="text-xs block">
-                  {role || "Administrator"}
+                  {role}
                 </Text>
               </div>
               <Avatar

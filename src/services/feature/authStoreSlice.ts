@@ -4,10 +4,9 @@ import { removeAdminToken, setAdminToken } from "../../hooks/handelAdminToken"; 
 // Auth State Interface
 interface User {
   id: string;
-  name: string;
-  phone_number: string;
+  username: string;
+  email: string;
   role: string;
-  image_url: string | null;
 }
 
 interface AuthState {

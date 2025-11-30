@@ -49,8 +49,8 @@ const AddTenant = () => {
         primary_color: values.primary_color,
         academic_year_start: values.academic_year_start.format("YYYY-MM-DD"),
         eiin: values.eiin,
-        logo_url: values.logo_url || "default-logo",
-        favicon_url: values.favicon_url || "default-favicon",
+        // logo_url: values.logo_url || "default-logo",
+        // favicon_url: values.favicon_url || "default-favicon",
         user_id: adminUserId, // This is from persisted Redux state
       };
 

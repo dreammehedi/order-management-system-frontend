@@ -2,7 +2,11 @@
 import { useAppDispatch, useAppSelector } from "@/services/store";
 import { useState } from "react";
 
-import { useLoginMutation } from "@/services/auth/authSlice";
+import {
+  useCreatOrderMutation,
+  useLoginMutation,
+  useLogoutMutation,
+} from "@/services/auth/authSlice";
 import { storeAuthData, storeLogout } from "../services/feature/authStoreSlice";
 
 export const useAuth = () => {
@@ -11,7 +15,11 @@ export const useAuth = () => {
     (state) => state.auth
   );
   const [loginApi, { isLoading: loginLoading }] = useLoginMutation();
+
+  const [logoutApi] = useLogoutMutation();
   const [error, setError] = useState<string | null>(null);
+
+  const [createOrderApi] = useCreatOrderMutation();
 
   // const login = async (
   //   phone_number: string,
@@ -59,17 +67,16 @@ export const useAuth = () => {
         // Use the actual response data from API
         const authData = {
           token: response.data.token,
-          role: response.data.role,
+          role: response.data.user.role,
           user: {
-            id: response.data.id, // This is the user ID from response
-            name: response.data.username,
-            phone_number: response.data.phone_number,
-            role: response.data.role,
-            image_url: response.data.image_url,
+            id: response.data.user.id,
+            username: response.data.user.username,
+            email: response.data.user.email,
+            is_active: response.data.user.is_active,
           },
         };
 
-        dispatch(storeAuthData(authData));
+        dispatch(storeAuthData(authData as any));
         return true;
       } else {
         setError(response.message || "Login failed");
@@ -82,11 +89,51 @@ export const useAuth = () => {
       return false;
     }
   };
-  const logout = () => {
-    dispatch(storeLogout());
-    setError(null);
+
+  const logout = async () => {
+    try {
+      // Create FormData for the request
+
+      const response = await logoutApi().unwrap();
+
+      if (response.success) {
+        dispatch(storeLogout());
+        setError(null);
+
+        return true;
+      } else {
+        setError(response.message || "Logout failed");
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err?.data?.message || err?.error || "Logout failed. Please try again.";
+      setError(errorMessage);
+      return false;
+    }
   };
 
+  const createOrder = async (data): Promise<boolean> => {
+    setError(null);
+    try {
+      // Create data for the request
+
+      const response = await createOrderApi(data).unwrap();
+
+      if (response.success) {
+        // Use the actual response data from API
+
+        return true;
+      } else {
+        setError(response.message || "order failed");
+        return false;
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err?.data?.message || err?.error || "order failed. Please try again.";
+      setError(errorMessage);
+      return false;
+    }
+  };
   const clearError = () => {
     setError(null);
   };
@@ -101,5 +148,6 @@ export const useAuth = () => {
     loginLoading,
     error,
     clearError,
+    createOrder,
   };
 };
